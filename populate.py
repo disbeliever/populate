@@ -1,31 +1,62 @@
 #!/usr/bin/python2
 #-*- coding: utf-8 -*-
 
-import sys
 import getopt
+import os
+import sys
+
+
+def get_config_dir():
+    base_dir = os.getenv('XDG_CONFIG_HOME')
+    if (base_dir is None):
+        base_dir = os.path.expanduser("~/.config")
+    conf_dir = os.path.join(base_dir, "populate")
+
+    return conf_dir
 
 
 def action_fill(template):
     pass
 
 
+def usage():
+    print "Usage: " + sys.argv[0] + " action [arg]"
+    print "  Where action can be:"
+    print "    fill"
+
+
 def parse_args():
     try:
-        (opts, args) = getopt.getopt(sys.argv[1:], 'h')
+        (opts, args) = getopt.getopt(sys.argv[1:], 'h', ['help'])
     except getopt.GetoptError as e:
-        print "error:", e
-        return
+        usage()
+        sys.exit(2)
 
-    args = args[1:]
+    if (len(args) == 0):
+        usage()
+        sys.exit(2)
     action = args[0]
+    action_args = args[1:]
+
     if (action == "fill"):
-        pass
-    if (len(args) > 1):
-        print "warning: too many args for this action. Using only '{0}'".format(args[0])
+        if (len(action_args) == 0):
+            usage()
+        elif (len(action_args) > 1):
+            print "warning: too many args for this action. Using only '{0}'".format(args[0])
+
+    return action, action_args[0]
 
 
 def main():
-    parse_args()
+    print get_config_dir()
+    (action, arg) = parse_args()
+    if (action is None):
+        usage()
+        return
+
+    if (action == 'fill'):
+        print "Filling from template: " + arg
+        action_fill(arg)
     return 0
 
 if __name__ == "__main__":
