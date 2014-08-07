@@ -3,6 +3,7 @@
 
 import getopt
 import os
+import shutil
 import sys
 
 
@@ -16,7 +17,10 @@ def get_config_dir():
 
 
 def action_fill(template):
-    pass
+    template_dir = os.path.join(get_config_dir(), template)
+    if (os.path.exists(template_dir)):
+        for i in os.listdir(template_dir):
+            shutil.copy(os.path.join(template_dir, i), os.getcwd())
 
 
 def usage():
@@ -48,7 +52,6 @@ def parse_args():
 
 
 def main():
-    print get_config_dir()
     (action, arg) = parse_args()
     if (action is None):
         usage()
