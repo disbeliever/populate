@@ -21,6 +21,8 @@ def action_fill(template):
     if (os.path.exists(template_dir)):
         for i in os.listdir(template_dir):
             shutil.copy(os.path.join(template_dir, i), os.getcwd())
+    else:
+        print "error: template '{0}' doesn't exist".format(template)
 
 
 def usage():
