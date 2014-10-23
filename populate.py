@@ -1,4 +1,4 @@
-#!/usr/bin/python2
+#!/usr/bin/python3
 #-*- coding: utf-8 -*-
 
 import getopt
@@ -22,13 +22,13 @@ def action_fill(template):
         for i in os.listdir(template_dir):
             shutil.copy(os.path.join(template_dir, i), os.getcwd())
     else:
-        print "error: template '{0}' doesn't exist".format(template)
+        print("error: template '{0}' doesn't exist".format(template))
 
 
 def usage():
-    print "Usage: " + sys.argv[0] + " action [arg]"
-    print "  Where action can be:"
-    print "    fill"
+    print("Usage: " + sys.argv[0] + " action [arg]")
+    print("  Where action can be:")
+    print("    fill")
 
 
 def parse_args():
@@ -46,21 +46,23 @@ def parse_args():
 
     if (action == "fill"):
         if (len(action_args) == 0):
+            action_arg = None
             usage()
+        elif (len(action_args) == 1):
+            action_arg = action_args[0]
         elif (len(action_args) > 1):
-            print "warning: too many args for this action. Using only '{0}'".format(args[0])
+            print("warning: too many args for this action. Using only '{0}'".format(args[0]))
 
-    return action, action_args[0]
+    return action, action_arg
 
 
 def main():
     (action, arg) = parse_args()
-    if (action is None):
-        usage()
+    if (action is None or arg is None):
         return
 
     if (action == 'fill'):
-        print "Filling from template: " + arg
+        print("Filling from template:", arg)
         action_fill(arg)
     return 0
 
