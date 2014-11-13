@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-#-*- coding: utf-8 -*-
+# -*- coding: utf-8 -*-
 
 import getopt
 import os
@@ -29,6 +29,7 @@ def usage():
     print("Usage: " + sys.argv[0] + " action [arg]")
     print("  Where action can be:")
     print("    fill")
+    print("    list")
 
 
 def parse_args():
@@ -52,6 +53,10 @@ def parse_args():
             action_arg = action_args[0]
         elif (len(action_args) > 1):
             print("warning: too many args for this action. Using only '{0}'".format(args[0]))
+    elif (action == "list"):
+        action_arg = ''
+    else:
+        action_arg = None
 
     return action, action_arg
 
@@ -64,6 +69,9 @@ def main():
     if (action == 'fill'):
         print("Filling from template:", arg)
         action_fill(arg)
+    elif (action == 'list'):
+        for i in os.listdir(get_config_dir()):
+            print(i)
     return 0
 
 if __name__ == "__main__":
